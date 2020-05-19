@@ -4,7 +4,6 @@ namespace DigiTickets\Stripe\Messages;
 
 use DigiTickets\Stripe\Lib\ComplexTransactionRef;
 use Omnipay\Common\Message\AbstractResponse;
-use Omnipay\Common\Message\RequestInterface;
 use Stripe\PaymentIntent;
 
 class CompletePurchaseResponse extends AbstractResponse
@@ -20,17 +19,17 @@ class CompletePurchaseResponse extends AbstractResponse
     /**
      * @var bool
      */
-    private $successful = false;
+    private $successful;
 
     /**
      * @var string|null
      */
-    private $message = null;
+    private $message;
 
     /**
      * @var string|null
      */
-    private $code = null;
+    private $code;
 
     /**
      * @var string|null
@@ -42,7 +41,7 @@ class CompletePurchaseResponse extends AbstractResponse
         parent::__construct($request, $data);
 
         if (isset($data['paymentIntent'])) {
-            /** @var \Stripe\PaymentIntent $paymentIntent */
+            /** @var PaymentIntent $paymentIntent */
             $paymentIntent = $data['paymentIntent'];
 
             $this->internalTransactionRef = $paymentIntent->id;

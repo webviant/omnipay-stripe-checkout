@@ -19,6 +19,7 @@ abstract class AbstractCheckoutRequest extends AbstractRequest
     /**
      * Set the gateway API Key.
      *
+     * @param string $value
      * @return AbstractRequest provides a fluent interface.
      */
     public function setApiKey($value): AbstractRequest

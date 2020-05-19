@@ -1,5 +1,5 @@
 {
-  "name": "digitickets/omnipay-stripe-checkout",
+  "name": "jayprakashji/omnipay-stripe-checkout",
   "type": "library",
   "description": "Payment Gateway driver for Stripe (Checkout)",
   "keywords": [
@@ -11,12 +11,17 @@
     "pay",
     "payment"
   ],
-  "homepage": "https://github.com/digitickets/omnipay-stripe-checkout",
+  "homepage": "https://github.com/jayprakashji/omnipay-stripe-checkout",
   "license": "MIT",
   "authors": [
     {
       "name": "Glenn Jenkins",
       "email": "glenn.jenkins@digitickets.co.uk",
+      "role": "Developer"
+    },
+    {
+      "name": "Jayprakash",
+      "email": "jayprakashji@gmail.com",
       "role": "Developer"
     }
   ],
@@ -30,16 +35,15 @@
     }
   },
   "require": {
-    "omnipay/common": "~2.0",
-    "php": "^7",
-    "symfony/event-dispatcher": "^2.8",
-    "stripe/stripe-php": "^7.14"
+    "omnipay/common": "^3",
+    "stripe/stripe-php": "^7.33",
+    "ext-json": "*"
   },
   "require-dev": {
-    "friendsofphp/php-cs-fixer": "^2.0",
-    "mockery/mockery": "~0.8",
-    "omnipay/tests": "~2.0",
-    "satooshi/php-coveralls": "^1.0"
+    "friendsofphp/php-cs-fixer": "^2.16",
+    "mockery/mockery": "~1",
+    "omnipay/tests": "~3.1",
+    "php-coveralls/php-coveralls": "^2.2"
   },
   "scripts": {
     "run-sa": "vendor/bin/phpstan analyse --ansi --no-progress -c phpstan.neon -l 4 src tests",

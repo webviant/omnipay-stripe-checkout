@@ -3,6 +3,10 @@
 namespace DigiTickets\Stripe\Messages;
 
 use DigiTickets\Stripe\Lib\ComplexTransactionRef;
+use Exception;
+use Omnipay\Common\Exception\InvalidRequestException;
+use Stripe\Refund;
+use Stripe\Stripe;
 
 /**
  * This is the request to refund a payment.
@@ -11,6 +15,10 @@ use DigiTickets\Stripe\Lib\ComplexTransactionRef;
  */
 class RefundRequest extends AbstractCheckoutRequest
 {
+    /**
+     * {@inheritDoc}
+     * @throws InvalidRequestException
+     */
     public function getData()
     {
         // Just validate the parameters.
@@ -19,23 +27,26 @@ class RefundRequest extends AbstractCheckoutRequest
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function sendData($data)
     {
         // We use Stripe's SDK to initialise a (Stripe) session.
-        \Stripe\Stripe::setApiKey($this->getApiKey());
+        Stripe::setApiKey($this->getApiKey());
 
         // Initiate the refund. The payment intent id is the transaction reference from the original payment.
         // Now, the transaction reference is assumed to be a JSON string containing the session and actual transaction
         // ref, so we use the ComplexTransactionRef object to extract it.
         try {
-            $refund = \Stripe\Refund::create(
+            $refund = Refund::create(
                 [
                     'payment_intent' => ComplexTransactionRef::buildFromJson(
-                            $this->getTransactionReference()
-                        )->getTransactionReference(),
+                        $this->getTransactionReference()
+                    )->getTransactionReference(),
                 ]
             );
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // Stripe wasn't happy about something. In theory, the exception will be a subclass of
             // \Stripe\Exception\ApiErrorException, but there's no harm in catching every exception, because the
             // response object only needs the message.

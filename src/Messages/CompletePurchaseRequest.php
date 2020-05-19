@@ -3,6 +3,11 @@
 namespace DigiTickets\Stripe\Messages;
 
 use DigiTickets\Stripe\Lib\ComplexTransactionRef;
+use Omnipay\Common\Exception\InvalidRequestException;
+use Stripe\Checkout\Session;
+use Stripe\Exception\ApiErrorException;
+use Stripe\PaymentIntent;
+use Stripe\Stripe;
 
 class CompletePurchaseRequest extends AbstractCheckoutRequest
 {
@@ -30,6 +35,10 @@ class CompletePurchaseRequest extends AbstractCheckoutRequest
         $this->sessionID = ComplexTransactionRef::buildFromJson($value)->getSessionID();
     }
 
+    /**
+     * {@inheritDoc}
+     * @throws InvalidRequestException
+     */
     public function getData()
     {
         // Just validate the parameters.
@@ -38,13 +47,17 @@ class CompletePurchaseRequest extends AbstractCheckoutRequest
         return null; // The data we need (the session id) is already in the request object.
     }
 
+    /**
+     * {@inheritDoc}
+     * @throws ApiErrorException
+     */
     public function sendData($data)
     {
         // Retrieve the session that would have been started earlier.
-        \Stripe\Stripe::setApiKey($this->getApiKey());
+        Stripe::setApiKey($this->getApiKey());
 
-        $session = \Stripe\Checkout\Session::retrieve($this->sessionID);
-        $paymentIntent = \Stripe\PaymentIntent::retrieve($session->payment_intent);
+        $session = Session::retrieve($this->sessionID);
+        $paymentIntent = PaymentIntent::retrieve($session->payment_intent);
 
         return $this->response = new CompletePurchaseResponse($this, ['paymentIntent' => $paymentIntent]);
     }

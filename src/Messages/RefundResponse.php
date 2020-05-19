@@ -3,8 +3,9 @@
 namespace DigiTickets\Stripe\Messages;
 
 use DigiTickets\Stripe\Lib\ComplexTransactionRef;
+use Exception;
 use Omnipay\Common\Message\AbstractResponse;
-use Omnipay\Common\Message\RequestInterface;
+use Stripe\Refund;
 
 class RefundResponse extends AbstractResponse
 {
@@ -16,17 +17,17 @@ class RefundResponse extends AbstractResponse
     /**
      * @var bool
      */
-    private $success = false;
+    private $success;
 
     /**
      * @var string|null
      */
-    private $message = null;
+    private $message;
 
     /**
      * @var string|null
      */
-    private $transactionReference = null;
+    private $transactionReference;
 
     public function __construct(RefundRequest $request, $data)
     {
@@ -38,11 +39,11 @@ class RefundResponse extends AbstractResponse
         // In theory, the exception will be a subclass of \Stripe\Exception\ApiErrorException, but we need to handle
         // any exception being thrown, and there's no point separating them because we'd do exactly the same thing with
         // a stripe and a non-stripe exception.
-        if ($refund instanceof \Exception) {
+        if ($refund instanceof Exception) {
             $this->success = false;
             $this->message = $refund->getMessage();
-        } elseif ($refund instanceof \Stripe\Refund) {
-            if ($refund->status === \Stripe\Refund::STATUS_SUCCEEDED) {
+        } elseif ($refund instanceof Refund) {
+            if ($refund->status === Refund::STATUS_SUCCEEDED) {
                 // Looks like it was okay.
                 $this->success = true;
                 $this->message = $refund->status;

@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection SenselessMethodDuplicationInspection */
 
 namespace DigiTickets\Stripe\Messages;
 
 use DigiTickets\Stripe\Lib\ComplexTransactionRef;
+use InvalidArgumentException;
 use Omnipay\Common\Message\AbstractResponse;
 use Omnipay\Common\Message\RedirectResponseInterface;
 use Omnipay\Common\Message\RequestInterface;
@@ -10,7 +11,7 @@ use Stripe\Checkout\Session;
 
 /**
  * This payment gateway is essentially a "soft" redirect. In other words, the client makes a purchase request, then
- * displays a page whch uses JavaScript to redirect.
+ * displays a page which uses JavaScript to redirect.
  * The methods in this class have to reflect that.
  */
 class PurchaseResponse extends AbstractResponse implements RedirectResponseInterface
@@ -18,7 +19,7 @@ class PurchaseResponse extends AbstractResponse implements RedirectResponseInter
     /**
      * @var Session|null $session
      */
-    private $session = null;
+    private $session;
 
     public function __construct(RequestInterface $request, $data)
     {
@@ -27,7 +28,7 @@ class PurchaseResponse extends AbstractResponse implements RedirectResponseInter
         if (isset($data['session']) && $data['session'] instanceof Session) {
             $this->setSession($data['session']);
         } else {
-            throw new \InvalidArgumentException('A valid Session must be supplied');
+            throw new InvalidArgumentException('A valid Session must be supplied');
         }
     }
 
@@ -72,7 +73,7 @@ class PurchaseResponse extends AbstractResponse implements RedirectResponseInter
     }
 
     /**
-     * The transation ref has to include the session and (later) the actual transaction ref. This is because the session
+     * The translation ref has to include the session and (later) the actual transaction ref. This is because the session
      * is the only thing we have that will allow us to retrieve the payment later in the process (and therefore get the
      * transaction ref.
      * We encode it as JSON.

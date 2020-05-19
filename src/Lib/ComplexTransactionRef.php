@@ -63,6 +63,7 @@ class ComplexTransactionRef
     }
 
     /**
+     * @param string $value
      * @return self
      */
     public function setRefundReference($value)
