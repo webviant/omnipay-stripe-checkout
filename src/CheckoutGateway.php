@@ -31,6 +31,13 @@ use Omnipay\Common\Message\RequestInterface;
  */
 class CheckoutGateway extends AbstractGateway
 {
+    public function getDefaultParameters()
+    {
+        return array(
+            'apiKey' => '',
+            'public' => '',
+        );
+    }
     /**
      * Get the gateway API Key (the "secret key").
      *
