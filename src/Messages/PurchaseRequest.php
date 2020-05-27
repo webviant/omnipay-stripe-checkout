@@ -59,7 +59,7 @@ class PurchaseRequest extends AbstractCheckoutRequest
             'cancel_url'           => $this->getCancelUrl(),
             'metadata'             => $this->getMetadata(),
         ];
-        return null;
+        return $data;
     }
 
     public function getMetadata()
