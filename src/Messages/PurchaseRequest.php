@@ -35,8 +35,8 @@ class PurchaseRequest extends AbstractCheckoutRequest
         // supply negative-valued items, they will NOT be deducted from the payment amount.
         return [
             'client_reference_id'  => $this->getTransactionId(),
-            'customer_email'  => $this->nullIfEmpty($this->getCustomerEmail()),
-            'payment_method_types' => ['card'],
+            'customer_email'       => $this->nullIfEmpty($this->getCustomerEmail()),
+            'payment_method_types' => $this->getPaymentMethodTypes(),
             'line_items'           => array_map(
                 function (Item $item) {
                     return [
@@ -80,6 +80,20 @@ class PurchaseRequest extends AbstractCheckoutRequest
     public function setCustomerEmail($value)
     {
         return $this->setParameter('customer_email', $value);
+    }
+
+    public function getPaymentMethodTypes()
+    {
+        $paymentMethodTypes = $this->getParameter('payment_method_types');
+        if (empty($paymentMethodTypes) || !is_array($paymentMethodTypes)) {
+            $paymentMethodTypes = ['card'];
+        }
+        return $paymentMethodTypes;
+    }
+
+    public function setPaymentMethodTypes($value)
+    {
+        return $this->setParameter('payment_method_types', $value);
     }
 
 
