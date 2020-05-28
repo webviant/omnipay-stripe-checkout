@@ -33,8 +33,9 @@ class PurchaseRequest extends AbstractCheckoutRequest
         // cart, so we have to filter them out (and re-index them) before we build the line items array.
         // Beware because the amount the customer pays is the sum of the values of the remaining items, so if you
         // supply negative-valued items, they will NOT be deducted from the payment amount.
-        $data = [
+        return [
             'client_reference_id'  => $this->getTransactionId(),
+            'customer_email'  => $this->nullIfEmpty($this->getCustomerEmail()),
             'payment_method_types' => ['card'],
             'line_items'           => array_map(
                 function (Item $item) {
@@ -59,7 +60,6 @@ class PurchaseRequest extends AbstractCheckoutRequest
             'cancel_url'           => $this->getCancelUrl(),
             'metadata'             => $this->getMetadata(),
         ];
-        return $data;
     }
 
     public function getMetadata()
@@ -71,6 +71,17 @@ class PurchaseRequest extends AbstractCheckoutRequest
     {
         return $this->setParameter('metadata', $value);
     }
+
+    public function getCustomerEmail()
+    {
+        return $this->getParameter('customer_email');
+    }
+
+    public function setCustomerEmail($value)
+    {
+        return $this->setParameter('customer_email', $value);
+    }
+
 
     /**
      * {@inheritDoc}
