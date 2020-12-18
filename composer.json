@@ -1,5 +1,5 @@
 {
-  "name": "jayprakashji/omnipay-stripe-checkout",
+  "name": "webviant/omnipay-stripe-checkout",
   "type": "library",
   "description": "Payment Gateway driver for Stripe (Checkout)",
   "keywords": [
@@ -11,7 +11,7 @@
     "pay",
     "payment"
   ],
-  "homepage": "https://github.com/jayprakashji/omnipay-stripe-checkout",
+  "homepage": "https://github.com/webviant/omnipay-stripe-checkout",
   "license": "MIT",
   "authors": [
     {
@@ -22,6 +22,11 @@
     {
       "name": "Jayprakash",
       "email": "jayprakashji@gmail.com",
+      "role": "Developer"
+    },
+        {
+      "name": "Webviant",
+      "email": "webviant@gmail.com",
       "role": "Developer"
     }
   ],
