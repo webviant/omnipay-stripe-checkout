@@ -49,10 +49,5 @@
     "mockery/mockery": "~1",
     "omnipay/tests": "~3.1",
     "php-coveralls/php-coveralls": "^2.2"
-  },
-  "scripts": {
-    "run-sa": "vendor/bin/phpstan analyse --ansi --no-progress -c phpstan.neon -l 4 src tests",
-    "run-fixer": "vendor/bin/php-cs-fixer fix",
-    "run-tests": "vendor/bin/phpunit"
   }
 }
