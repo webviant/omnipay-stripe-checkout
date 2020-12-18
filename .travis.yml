@@ -8,10 +8,10 @@ git:
 matrix:
   include:
   - php: 7.0
-    env: PHPSTAN=true COVERAGE=true
   - php: 7.1
   - php: 7.2
-    env: PHPSTAN=true
+  - php: 7.3
+  - php: 7.4
   - php: nightly
   allow_failures:
   - php: nightly
